@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+           @import url(./reset.css);
+           div {width: 150px;height: 300px;}
+           #div1{display: none;position: fixed;right: 0;top: 0;background: red;}
+           #div2{display: none;background: green;position: absolute;right: 0;top: 0;}
+           #div3{display: none;background: black;position:absolute;right: 0;top: 0;display: block;}
+           
+            </style>
+        <script>
+            window.onscroll=function()
+            {
+                var oDiv1=document.getElementById('div1');
+                var oDiv2=document.getElementById('div2');
+                var oDiv3=document.getElementById('div3');
+                var oDiv=document.getElementsByTagName('div');
+                var oBtn=document.getElementsByTagName('input');
+                var i=0;
+                var oY=document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
+                 var t=(document.documentElement.clientHeight-oDiv3.offsetHeight)/2+oY;
+
+                for(i=0;i<oBtn.length;i++)
+                {
+                    oBtn[i].index=i;
+                    
+                    oBtn[i].onclick=function()
+                    {
+                        for(i=0;i<oDiv.length;i++)
+                        {
+                            oDiv[i].style.display='none';
+                            oBtn[i].checked=false;
+                        }
+                        oBtn[this.index].checked=true;
+                      oDiv[this.index].style.display='block';
+                    }
+                }
+                oDiv1.style.top=(document.documentElement.clientHeight-oDiv1.offsetHeight)/2+'px';
+                oDiv2.style.top=(document.documentElement.clientHeight-oDiv2.offsetHeight)/2+oY+'px';
+                 
+                
+                
+                sMove(t);
+            }
+               var timer=null;
+            function sMove(iTar)
+            {
+             
+                var oDiv3=document.getElementById('div3');
+                clearInterval(timer);
+                timer=setInterval(function(){
+                 var iSpeed=(iTar-oDiv3.offsetTop)/10;
+                 iSpeed=iSpeed>0?Math.ceil(iSpeed):Math.floor(iSpeed);
+                 
+                 console.log(iSpeed);
+                 if(oDiv3.offsetTop==iTar)
+                 {
+                     clearInterval(timer);
+                 }
+                 else{
+                     oDiv3.style.top=oDiv3.offsetTop+iSpeed+'px';
+                 }
+                },50)
+                
+            }
+        </script>
+    </head>
+    <body style="height:2000px;">
+      <input id="btn1" type="checkbox" name="" value="" /> 绝对定位fixed<input id="btn2" type="checkbox" name="" value="" /> scrollTop
+      <input id="btn3" type="checkbox" name="" value="" /> 缓冲运动
+      <div id="div1"></div>
+      <div id="div2"></div>
+      <div id="div3"></div>
+      
+    </body>
+</html>
